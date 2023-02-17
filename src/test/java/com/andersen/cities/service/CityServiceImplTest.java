@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,7 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.andersen.cities.util.Constants.ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -85,19 +83,19 @@ public class CityServiceImplTest {
     public void shouldSaveEditedCity_whenEditCity() {
         City city = generateCity(1, "name", "photo");
         CityDto cityDto = generateCityDto();
-        when(cityRepository.findCityById(anyInt())).thenReturn(Optional.of(city));
+        when(cityRepository.findById(anyInt())).thenReturn(Optional.of(city));
         when(cityRepository.save(any())).thenReturn(city);
 
         cityService.editCity(cityDto);
 
-        verify(cityRepository).findCityById(1);
+        verify(cityRepository).findById(1);
         verify(cityRepository).save(city);
     }
 
     @Test
     public void shouldThrowCityNotFound_whenEditCity_givenNonExistingCity() {
         CityDto cityDto = generateCityDto();
-        when(cityRepository.findCityById(anyInt())).thenReturn(Optional.empty());
+        when(cityRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         assertThrows(CityNotFoundException.class, () -> cityService.editCity(cityDto));
     }
@@ -106,7 +104,7 @@ public class CityServiceImplTest {
     public void shouldReturnListCity_whenFindCitiesByName_givenPageParamsAndSearchParam() {
         List<City> expected = List.of(generateCity(1, "name", "photo"));
         Page<City> pageCity = new PageImpl<>(expected);
-        Pageable expectedPage = PageRequest.of(1, 1, Sort.by(ID).ascending());
+        Pageable expectedPage = PageRequest.of(1, 1);
         when(cityRepository.findCityByNameContaining(any(), any())).thenReturn(pageCity);
 
         List<City> actual = cityService.findCitiesByName(1, 1, "param");
@@ -127,7 +125,7 @@ public class CityServiceImplTest {
     public void shouldReturnListCity_whenGetAllCities_givenPageParams() {
         List<City> expected = List.of(generateCity(1, "name", "photo"));
         Page<City> pageCity = new PageImpl<>(expected);
-        Pageable expectedPage = PageRequest.of(1, 1, Sort.by(ID).ascending());
+        Pageable expectedPage = PageRequest.of(1, 1);
         when(cityRepository.findAll(expectedPage)).thenReturn(pageCity);
 
         List<City> actual = cityService.getAllCities(1, 1);
@@ -139,7 +137,7 @@ public class CityServiceImplTest {
     @Test
     public void shouldThrowNothingFound_whenGetAllCities() {
         Page<City> pageCity = new PageImpl<>(Collections.emptyList());
-        Pageable paging = PageRequest.of(1, 1, Sort.by(ID).ascending());
+        Pageable paging = PageRequest.of(1, 1);
 
         when(cityRepository.findAll(paging)).thenReturn(pageCity);
 

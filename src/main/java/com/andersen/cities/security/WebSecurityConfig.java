@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static com.andersen.cities.util.Constants.ROLE_ADMIN;
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @ComponentScan(basePackages = "com")
 @Configuration

@@ -13,14 +13,11 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
-
-import static com.andersen.cities.util.Constants.ID;
 
 @Log4j
 @Service
@@ -50,7 +47,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public void editCity(CityDto cityDto) {
-        Optional<City> optionalCity = cityRepository.findCityById(cityDto.getId());
+        Optional<City> optionalCity = cityRepository.findById(cityDto.getId());
         if (optionalCity.isEmpty()) {
             log.error("City with name " + cityDto.getId() + " was not found");
             throw new CityNotFoundException(cityDto.getId());
@@ -63,7 +60,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public List<City> findCitiesByName(int pageNumber, int pageSize, String searchParameter) {
-        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(ID).ascending());
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<City> cityPage = cityRepository.findCityByNameContaining(searchParameter, paging);
         List<City> cityList = cityPage.getContent();
         if (cityList.size() == 0) {
@@ -74,7 +71,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public List<City> getAllCities(int pageNumber, int pageSize) {
-        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(ID).ascending());
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<City> cityPage = cityRepository.findAll(paging);
         List<City> cityList = cityPage.getContent();
         if (cityList.size() == 0) {

@@ -73,7 +73,7 @@ public class CityController {
                             examples = {@ExampleObject(CITY_WAS_NOT_FOUND)}))
     })
     @PatchMapping("/editor")
-    public SuccessResponse editCity(@Valid @RequestBody CityDto cityDto) {
+    public SuccessResponse editCityInformation(@Valid @RequestBody CityDto cityDto) {
         cityService.editCity(cityDto);
         return new SuccessResponse(CITY_EDITED);
     }

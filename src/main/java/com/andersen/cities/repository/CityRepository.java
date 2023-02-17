@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface CityRepository extends JpaRepository<City, Integer> {
-    Optional<City> findCityById(int id);
 
     Page<City> findCityByNameContaining(String searchName, Pageable pageable);
 }

@@ -6,7 +6,6 @@ public interface Constants {
     String FILE_NOT_FOUND_MESSAGE = "File was not found";
     String NO_CONTENT_MESSAGE = "Couldn't find anything by your request";
     String ROLE_ADMIN = "ALLOW_EDIT";
-    String ID = "id";
     String FILE = "file";
     String SHEME_BEARER = "Bearer";
     String BEARER_FORMAT = "JWT";

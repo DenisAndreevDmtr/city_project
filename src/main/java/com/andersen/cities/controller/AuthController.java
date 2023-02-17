@@ -44,7 +44,7 @@ public class AuthController {
             )
     })
     @PostMapping
-    public AuthResponse login(@RequestBody LoginAndPasswordDto loginAndPasswordDto) {
+    public AuthResponse authorizationWithLoginAndPassword(@RequestBody LoginAndPasswordDto loginAndPasswordDto) {
         User user = userService.validateUser(loginAndPasswordDto);
         String token = jwtProvider.generateToken(user.getLogin());
         return new AuthResponse(token);
