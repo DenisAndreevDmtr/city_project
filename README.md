@@ -7,7 +7,7 @@ Before the start you need to:
 5. Run SpringBootCityApplication;
 
 
-In order to use all functionality you need to authorize (authorization endpoint).
+In order to use all functionality you need to authorize (authorization endpoint: localhost:8080/api/v1/authorization).
 After authorization you will get token.
 There are 2 users in the DB:
 1. login: admin, password: admin;
