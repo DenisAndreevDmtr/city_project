@@ -102,12 +102,12 @@ public class CityServiceImplTest {
 
     @Test
     public void shouldReturnListCity_whenFindCitiesByName_givenPageParamsAndSearchParam() {
-        List<City> expected = List.of(generateCity(1, "name", "photo"));
-        Page<City> pageCity = new PageImpl<>(expected);
+        List<City> listCity = List.of(generateCity(1, "name", "photo"));
+        Page<City> expected = new PageImpl<>(listCity);
         Pageable expectedPage = PageRequest.of(1, 1);
-        when(cityRepository.findCityByNameContaining(any(), any())).thenReturn(pageCity);
+        when(cityRepository.findCityByNameContaining(any(), any())).thenReturn(expected);
 
-        List<City> actual = cityService.findCitiesByName(1, 1, "param");
+        Page<City> actual = cityService.findCitiesByName(1, 1, "param");
 
         verify(cityRepository).findCityByNameContaining("param", expectedPage);
         assertEquals(expected, actual);
@@ -123,12 +123,12 @@ public class CityServiceImplTest {
 
     @Test
     public void shouldReturnListCity_whenGetAllCities_givenPageParams() {
-        List<City> expected = List.of(generateCity(1, "name", "photo"));
-        Page<City> pageCity = new PageImpl<>(expected);
+        List<City> cityList = List.of(generateCity(1, "name", "photo"));
+        Page<City> expected = new PageImpl<>(cityList);
         Pageable expectedPage = PageRequest.of(1, 1);
-        when(cityRepository.findAll(expectedPage)).thenReturn(pageCity);
+        when(cityRepository.findAll(expectedPage)).thenReturn(expected);
 
-        List<City> actual = cityService.getAllCities(1, 1);
+        Page<City> actual = cityService.getAllCities(1, 1);
 
         verify(cityRepository).findAll(expectedPage);
         assertEquals(expected, actual);

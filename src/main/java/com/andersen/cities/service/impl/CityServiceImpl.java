@@ -59,25 +59,23 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public List<City> findCitiesByName(int pageNumber, int pageSize, String searchParameter) {
+    public Page<City> findCitiesByName(int pageNumber, int pageSize, String searchParameter) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<City> cityPage = cityRepository.findCityByNameContaining(searchParameter, paging);
-        List<City> cityList = cityPage.getContent();
-        if (cityList.size() == 0) {
+        if (cityPage.getContent().size() == 0) {
             throw new NothingFoundException();
         }
-        return cityList;
+        return cityPage;
     }
 
     @Override
-    public List<City> getAllCities(int pageNumber, int pageSize) {
+    public Page<City> getAllCities(int pageNumber, int pageSize) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<City> cityPage = cityRepository.findAll(paging);
-        List<City> cityList = cityPage.getContent();
-        if (cityList.size() == 0) {
+        if (cityPage.getContent().size() == 0) {
             throw new NothingFoundException();
         }
-        return cityList;
+        return cityPage;
     }
 
     private void saveListCity(List<City> cities) {

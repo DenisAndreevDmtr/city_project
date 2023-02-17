@@ -6,7 +6,6 @@ import com.andersen.cities.dto.response.SuccessResponse;
 import com.andersen.cities.entity.City;
 import com.andersen.cities.service.CityService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static com.andersen.cities.dto.response.ResponseMessageConstant.CITIES_UPLOADED;
 import static com.andersen.cities.dto.response.ResponseMessageConstant.CITY_EDITED;
@@ -78,35 +77,35 @@ public class CityController {
         return new SuccessResponse(CITY_EDITED);
     }
 
-    @Operation(summary = "Get all cities")
+    @Operation(summary = "Get all cities page")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get city page",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = City.class)))),
+                    content = @Content(schema = @Schema(implementation = Page.class))),
             @ApiResponse(responseCode = "204", description = "Couldn't find anything by your request")
     })
     @GetMapping("/view")
-    public ResponseEntity<List<City>> getAllCities(
+    public ResponseEntity<Page<City>> getAllCities(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize) {
-        List<City> cities = cityService.getAllCities(pageNumber, pageSize);
+        Page<City> cities = cityService.getAllCities(pageNumber, pageSize);
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get cities by page and search parameter")
+    @Operation(summary = "Get cities page by search parameter")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
                     description = "Get page with cities by search parameter",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = City.class)))
+                    content = @Content(schema = @Schema(implementation = Page.class))
             ),
             @ApiResponse(responseCode = "204", description = "Couldn't find anything by your request")
     })
     @GetMapping("/search")
-    public ResponseEntity<List<City>> findCitiesByName(
+    public ResponseEntity<Page<City>> findCitiesByName(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "5") int pageSize,
             @RequestParam String parameter) {
-        List<City> cities = cityService.findCitiesByName(pageNumber, pageSize, parameter);
+        Page<City> cities = cityService.findCitiesByName(pageNumber, pageSize, parameter);
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 }

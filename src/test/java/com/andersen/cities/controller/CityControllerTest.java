@@ -8,18 +8,21 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import com.andersen.cities.dto.request.CityDto;
+import com.andersen.cities.entity.City;
 import com.andersen.cities.exception.badrequest.IncorrectFileInformationException;
 import com.andersen.cities.exception.nocontent.NothingFoundException;
 import com.andersen.cities.exception.badrequest.CityNotFoundException;
 import com.andersen.cities.service.CityService;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
@@ -101,7 +104,8 @@ public class CityControllerTest {
 
     @Test
     public void shouldReturnSuccessResponse_whenGetAllCities_givenPageParams() throws Exception {
-        when(cityService.getAllCities(anyInt(), anyInt())).thenReturn(new ArrayList<>());
+        Page<City> pageCity = new PageImpl<>(Collections.emptyList());
+        when(cityService.getAllCities(anyInt(), anyInt())).thenReturn(pageCity);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(VIEW_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("pageNumber", String.valueOf(1)).param("pageSize", String.valueOf(1));
@@ -113,7 +117,8 @@ public class CityControllerTest {
 
     @Test
     public void shouldReturnSuccessResponse_whenFindCitiesByName_givenSearchParams() throws Exception {
-        when(cityService.findCitiesByName(anyInt(), anyInt(), anyString())).thenReturn(new ArrayList<>());
+        Page<City> pageCity = new PageImpl<>(Collections.emptyList());
+        when(cityService.findCitiesByName(anyInt(), anyInt(), anyString())).thenReturn(pageCity);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(SEARCH_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("pageNumber", String.valueOf(1)).param("pageSize", String.valueOf(1)).param("parameter", "searchParam");
