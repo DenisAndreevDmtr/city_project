@@ -5,7 +5,6 @@ import com.andersen.cities.entity.City;
 import com.andersen.cities.exception.badrequest.IncorrectFileInformationException;
 import com.andersen.cities.exception.badrequest.CityNotFoundException;
 import com.andersen.cities.exception.badrequest.FileNotFoundException;
-import com.andersen.cities.exception.nocontent.NothingFoundException;
 import com.andersen.cities.repository.CityRepository;
 import com.andersen.cities.service.CityService;
 import com.andersen.cities.util.CsvUtil;
@@ -62,9 +61,6 @@ public class CityServiceImpl implements CityService {
     public Page<City> findCitiesByName(int pageNumber, int pageSize, String searchParameter) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<City> cityPage = cityRepository.findCityByNameContaining(searchParameter, paging);
-        if (cityPage.getContent().size() == 0) {
-            throw new NothingFoundException();
-        }
         return cityPage;
     }
 
@@ -72,9 +68,6 @@ public class CityServiceImpl implements CityService {
     public Page<City> getAllCities(int pageNumber, int pageSize) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<City> cityPage = cityRepository.findAll(paging);
-        if (cityPage.getContent().size() == 0) {
-            throw new NothingFoundException();
-        }
         return cityPage;
     }
 

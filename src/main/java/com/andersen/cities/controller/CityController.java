@@ -80,8 +80,7 @@ public class CityController {
     @Operation(summary = "Get all cities page")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get city page",
-                    content = @Content(schema = @Schema(implementation = Page.class))),
-            @ApiResponse(responseCode = "204", description = "Couldn't find anything by your request")
+                    content = @Content(schema = @Schema(implementation = Page.class)))
     })
     @GetMapping("/view")
     public ResponseEntity<Page<City>> getAllCities(
@@ -97,8 +96,7 @@ public class CityController {
                     responseCode = "200",
                     description = "Get page with cities by search parameter",
                     content = @Content(schema = @Schema(implementation = Page.class))
-            ),
-            @ApiResponse(responseCode = "204", description = "Couldn't find anything by your request")
+            )
     })
     @GetMapping("/search")
     public ResponseEntity<Page<City>> findCitiesByName(

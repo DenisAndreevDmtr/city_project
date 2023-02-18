@@ -4,7 +4,6 @@ import com.andersen.cities.dto.request.CityDto;
 import com.andersen.cities.entity.City;
 import com.andersen.cities.exception.badrequest.FileNotFoundException;
 import com.andersen.cities.exception.badrequest.IncorrectFileInformationException;
-import com.andersen.cities.exception.nocontent.NothingFoundException;
 import com.andersen.cities.exception.badrequest.CityNotFoundException;
 import com.andersen.cities.repository.CityRepository;
 import com.andersen.cities.service.impl.CityServiceImpl;
@@ -114,14 +113,6 @@ public class CityServiceImplTest {
     }
 
     @Test
-    public void shouldThrowNothingFound_whenFindCitiesByName_givenInvalidSearchParam() {
-        Page<City> pageCity = new PageImpl<>(Collections.emptyList());
-        when(cityRepository.findCityByNameContaining(any(), any())).thenReturn(pageCity);
-
-        assertThrows(NothingFoundException.class, () -> cityService.findCitiesByName(1, 1, "param"));
-    }
-
-    @Test
     public void shouldReturnListCity_whenGetAllCities_givenPageParams() {
         List<City> cityList = List.of(generateCity(1, "name", "photo"));
         Page<City> expected = new PageImpl<>(cityList);
@@ -132,16 +123,6 @@ public class CityServiceImplTest {
 
         verify(cityRepository).findAll(expectedPage);
         assertEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldThrowNothingFound_whenGetAllCities() {
-        Page<City> pageCity = new PageImpl<>(Collections.emptyList());
-        Pageable paging = PageRequest.of(1, 1);
-
-        when(cityRepository.findAll(paging)).thenReturn(pageCity);
-
-        assertThrows(NothingFoundException.class, () -> cityService.getAllCities(1, 1));
     }
 
     private List<City> generateListCities() {

@@ -16,3 +16,11 @@ There are 2 users in the DB:
 User can view pages of all cities, search by name and get page of result;
 Admin have user functionality plus ability to upload cities from csv file and edit city.
 You need to upload cities from csv with admin (at the beginning db is empty);
+
+You can use swagger for easier navigation.
+Application has the following uri:
+    -authorization uri (POST):  localhost:8080/api/v1/authorization
+    -upload (to populate with cities) uri (POST):  localhost:8080/api/v1/city/uploader
+    -editor (edit city information) uri (PATCH): localhost:8080/api/v1/city/editor
+    -search cities by name uri (GET): localhost:8080/api/v1/city/search?pageNumber=(enter № page)&pageSize=(enter page size)&parameter=(enter search parameter)
+    -get all cities uri (GET): localhost:8080/api/v1/city/view/?pageNumber=enter № page)&pageSize=(enter page size)

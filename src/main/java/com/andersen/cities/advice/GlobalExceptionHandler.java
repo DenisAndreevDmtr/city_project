@@ -5,7 +5,6 @@ import com.andersen.cities.dto.response.ResponseMessageConstant;
 import com.andersen.cities.exception.badrequest.IncorrectFileInformationException;
 import com.andersen.cities.exception.badrequest.CityNotFoundException;
 import com.andersen.cities.exception.badrequest.FileNotFoundException;
-import com.andersen.cities.exception.nocontent.NothingFoundException;
 import com.andersen.cities.exception.forbidden.IncorrectCredentialsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,14 +45,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<GeneralErrorResponse> handleAllForbiddenException(ResponseStatusException ex) {
         GeneralErrorResponse errorResponse = createGeneralErrorResponse(ex.getReason());
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler({
-            NothingFoundException.class
-    })
-    public ResponseEntity<GeneralErrorResponse> handleAllNotContentException(ResponseStatusException ex) {
-        GeneralErrorResponse errorResponse = createGeneralErrorResponse(ex.getReason());
-        return new ResponseEntity<>(errorResponse, HttpStatus.NO_CONTENT);
     }
 
     private GeneralErrorResponse createGeneralErrorResponse(String message) {

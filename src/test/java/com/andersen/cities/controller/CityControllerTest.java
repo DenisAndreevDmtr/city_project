@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import com.andersen.cities.dto.request.CityDto;
 import com.andersen.cities.entity.City;
 import com.andersen.cities.exception.badrequest.IncorrectFileInformationException;
-import com.andersen.cities.exception.nocontent.NothingFoundException;
 import com.andersen.cities.exception.badrequest.CityNotFoundException;
 import com.andersen.cities.service.CityService;
 
@@ -126,18 +125,6 @@ public class CityControllerTest {
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
-    public void shouldReturnNoContentResponse_whenFindCitiesByName_givenInvalidSearchParams() throws Exception {
-        doThrow(new NothingFoundException()).when(cityService).findCitiesByName(anyInt(), anyInt(), anyString());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(SEARCH_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("pageNumber", String.valueOf(1)).param("pageSize", String.valueOf(1)).param("parameter", "searchParam");
-        MockMvcBuilders.standaloneSetup(cityController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
     private <T> String convertRequestDtoToJson(T requestDto) {

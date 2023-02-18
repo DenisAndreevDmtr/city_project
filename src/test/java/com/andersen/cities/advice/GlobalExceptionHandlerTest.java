@@ -4,7 +4,6 @@ import com.andersen.cities.dto.response.GeneralErrorResponse;
 import com.andersen.cities.exception.badrequest.FileNotFoundException;
 import com.andersen.cities.exception.badrequest.IncorrectFileInformationException;
 import com.andersen.cities.exception.forbidden.IncorrectCredentialsException;
-import com.andersen.cities.exception.nocontent.NothingFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -58,13 +57,5 @@ public class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.FORBIDDEN, actual.getStatusCode());
         assertEquals(INCORRECT_CREDENTIALS_MESSAGE, Objects.requireNonNull(actual.getBody()).getMessage());
-    }
-
-    @Test
-    public void shouldReturnResponseNoContent_whenHandleAllNotContentException() {
-        ResponseEntity<GeneralErrorResponse> actual = globalExceptionHandler.handleAllNotContentException(new NothingFoundException());
-
-        assertEquals(HttpStatus.NO_CONTENT, actual.getStatusCode());
-        assertEquals(NO_CONTENT_MESSAGE, Objects.requireNonNull(actual.getBody()).getMessage());
     }
 }
